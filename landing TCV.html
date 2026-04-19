@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Access</title>
+
+<style>
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at center, #0a0a0f, #000);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    text-align:center;
+}
+
+.container {
+    max-width:400px;
+    padding:20px;
+}
+
+h1 {
+    font-size:28px;
+    letter-spacing:2px;
+    color:#00eaff;
+    text-shadow:0 0 10px #00eaff;
+}
+
+p {
+    opacity:0.8;
+}
+
+button {
+    margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    background:#00eaff;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    border-radius:5px;
+    transition:0.3s;
+}
+
+button:hover {
+    background:#00c8d8;
+}
+
+.hidden {
+    display:none;
+}
+
+.hold-btn {
+    background:#111;
+    color:#00eaff;
+    border:1px solid #00eaff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- STEP 1 -->
+<div id="step1">
+    <h1>PRIVATE ACCESS</h1>
+    <p>Restricted Content — Authorized Users Only</p>
+    <button onclick="nextStep(2)">ENTER</button>
+</div>
+
+<!-- STEP 2 -->
+<div id="step2" class="hidden">
+    <h1>VERIFY</h1>
+    <p>Press and hold to verify you are human</p>
+    <button class="hold-btn"
+        onmousedown="startHold()"
+        onmouseup="endHold()"
+        onmouseleave="endHold()"
+        ontouchstart="startHold()"
+        ontouchend="endHold()">
+        HOLD TO VERIFY
+    </button>
+</div>
+
+<!-- STEP 3 -->
+<div id="step3" class="hidden">
+    <h1>AGE CHECK</h1>
+    <p>You must be 18+ to enter</p>
+    <button onclick="enterSite()">I AM 18+</button>
+</div>
+
+</div>
+
+<script>
+let holdTimer;
+let holding = false;
+
+function nextStep(step) {
+    document.getElementById("step1").classList.add("hidden");
+    document.getElementById("step2").classList.add("hidden");
+    document.getElementById("step3").classList.add("hidden");
+
+    document.getElementById("step" + step).classList.remove("hidden");
+}
+
+function startHold() {
+    holding = true;
+
+    const btn = document.querySelector('.hold-btn');
+    btn.innerText = "VERIFYING...";
+
+    holdTimer = setTimeout(() => {
+        nextStep(3);
+    }, 2000);
+}
+
+function endHold() {
+    if (!holding) return;
+
+    holding = false;
+
+    clearTimeout(holdTimer);
+
+    const btn = document.querySelector('.hold-btn');
+    btn.innerText = "HOLD TO VERIFY";
+}
+
+function enterSite() {
+    window.location.href = "https://thecandidverse.com"; // CAMBIAR SI QUERÉS
+}
+</script>
+
+</body>
+</html>
