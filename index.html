@@ -1,251 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Private Access</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Access</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      font-family: Arial, sans-serif;
-      color: #fff;
-      overflow: hidden;
-    }
+    background: radial-gradient(circle at center, #0a0a0f, #000);
+}
 
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
+.container {
+    width:90%;
+    max-width:400px;
+    padding:30px;
+    border-radius:15px;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 30px rgba(0,255,255,0.2);
+}
 
-      background:
-        linear-gradient(rgba(0, 0, 0, 0.68), rgba(0, 0, 0, 0.88)),
-        url('background.jpg') center center / cover no-repeat;
-    }
+h1 {
+    font-size:28px;
+    letter-spacing:2px;
+    color:#00eaff;
+    text-shadow:0 0 15px #00eaff;
+}
 
-    .container {
-      width: min(92%, 460px);
-      padding: 34px 26px;
-      border-radius: 18px;
-      background: rgba(5, 8, 16, 0.42);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(0, 234, 255, 0.18);
-      box-shadow:
-        0 0 30px rgba(0, 234, 255, 0.14),
-        0 0 80px rgba(138, 43, 226, 0.10);
-    }
+p {
+    opacity:0.8;
+}
 
-    h1 {
-      margin: 0 0 12px;
-      font-size: clamp(28px, 5vw, 40px);
-      letter-spacing: 3px;
-      color: #00eaff;
-      text-shadow:
-        0 0 8px rgba(0, 234, 255, 0.75),
-        0 0 18px rgba(0, 234, 255, 0.45);
-    }
+.hidden {
+    display:none;
+}
 
-    p {
-      margin: 0;
-      font-size: 15px;
-      line-height: 1.55;
-      color: rgba(255,255,255,0.86);
-    }
+button {
+    margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
 
-    .hidden {
-      display: none;
-    }
+.enter-btn {
+    background: linear-gradient(45deg, #00eaff, #8a2be2);
+    color:white;
+    box-shadow:0 0 15px #00eaff;
+}
 
-    .btn {
-      margin-top: 24px;
-      min-width: 220px;
-      padding: 14px 28px;
-      border: none;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.25s ease, opacity 0.25s ease;
-    }
+.hold-btn {
+    background:#111;
+    border:1px solid #00eaff;
+    color:#00eaff;
+}
 
-    .btn:hover {
-      transform: translateY(-1px);
-    }
+/* barra */
+.progress-bar {
+    width:100%;
+    height:5px;
+    background:#222;
+    margin-top:10px;
+    border-radius:5px;
+    overflow:hidden;
+}
 
-    .btn:active {
-      transform: translateY(0);
-    }
-
-    .enter-btn {
-      color: #fff;
-      background: linear-gradient(90deg, #00d9ff 0%, #8b2cff 100%);
-      box-shadow:
-        0 0 16px rgba(0, 234, 255, 0.38),
-        0 0 34px rgba(139, 44, 255, 0.22);
-    }
-
-    .enter-btn:hover {
-      box-shadow:
-        0 0 22px rgba(0, 234, 255, 0.48),
-        0 0 42px rgba(139, 44, 255, 0.28);
-    }
-
-    .hold-btn {
-      color: #00eaff;
-      background: rgba(10, 14, 24, 0.88);
-      border: 1px solid rgba(0, 234, 255, 0.5);
-      box-shadow: inset 0 0 12px rgba(0, 234, 255, 0.08);
-    }
-
-    .hold-btn:hover {
-      box-shadow:
-        inset 0 0 18px rgba(0, 234, 255, 0.12),
-        0 0 18px rgba(0, 234, 255, 0.16);
-    }
-
-    .progress-wrap {
-      width: 100%;
-      margin-top: 14px;
-      padding: 2px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .progress-bar {
-      width: 0%;
-      height: 7px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #00eaff 0%, #8b2cff 100%);
-      transition: width 2s linear;
-      box-shadow: 0 0 12px rgba(0, 234, 255, 0.35);
-    }
-
-    .step-note {
-      margin-top: 10px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.55);
-      letter-spacing: 0.4px;
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        padding: 28px 20px;
-        border-radius: 16px;
-      }
-
-      .btn {
-        width: 100%;
-        min-width: unset;
-      }
-
-      p {
-        font-size: 14px;
-      }
-    }
-  </style>
+.progress {
+    width:0%;
+    height:100%;
+    background:#00eaff;
+    transition: width 2s linear;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <!-- STEP 1 -->
-    <div id="step1">
-      <h1>PRIVATE ACCESS</h1>
-      <p>Restricted Content — Authorized Users Only</p>
-      <button class="btn enter-btn" onclick="nextStep(2)">ENTER</button>
-    </div>
+<!-- STEP 1 -->
+<div id="step1">
+    <h1>PRIVATE ACCESS</h1>
+    <p>Restricted Content — Authorized Users Only</p>
+    <button class="enter-btn" onclick="nextStep(2)">ENTER</button>
+</div>
 
-    <!-- STEP 2 -->
-    <div id="step2" class="hidden">
-      <h1>VERIFY</h1>
-      <p>Press and hold to verify you are human</p>
+<!-- STEP 2 -->
+<div id="step2" class="hidden">
+    <h1>VERIFY</h1>
+    <p>Press and hold to verify you are human</p>
 
-      <button
-        class="btn hold-btn"
+    <button class="hold-btn"
         onmousedown="startHold()"
         onmouseup="endHold()"
         onmouseleave="endHold()"
         ontouchstart="startHold()"
-        ontouchend="endHold()"
-        ontouchcancel="endHold()"
-      >
+        ontouchend="endHold()">
         HOLD TO VERIFY
-      </button>
+    </button>
 
-      <div class="progress-wrap">
-        <div id="progress" class="progress-bar"></div>
-      </div>
-
-      <div class="step-note">Hold for 2 seconds</div>
+    <div class="progress-bar">
+        <div id="progress" class="progress"></div>
     </div>
+</div>
 
-    <!-- STEP 3 -->
-    <div id="step3" class="hidden">
-      <h1>AGE CHECK</h1>
-      <p>You must be 18+ to enter</p>
-      <button class="btn enter-btn" onclick="enterSite()">I AM 18+</button>
-    </div>
+<!-- STEP 3 -->
+<div id="step3" class="hidden">
+    <h1>AGE CHECK</h1>
+    <p>You must be 18+ to enter</p>
+    <button class="enter-btn" onclick="enterSite()">I AM 18+</button>
+</div>
 
-  </div>
+</div>
 
-  <script>
-    let holdTimer = null;
-    let holding = false;
+<script>
 
-    function nextStep(step) {
-      document.getElementById("step1").classList.add("hidden");
-      document.getElementById("step2").classList.add("hidden");
-      document.getElementById("step3").classList.add("hidden");
+let holdTimer;
+let holding = false;
 
-      document.getElementById("step" + step).classList.remove("hidden");
-    }
+function nextStep(step) {
+    document.getElementById("step1").classList.add("hidden");
+    document.getElementById("step2").classList.add("hidden");
+    document.getElementById("step3").classList.add("hidden");
 
-    function startHold() {
-      if (holding) return;
-      holding = true;
+    document.getElementById("step" + step).classList.remove("hidden");
+}
 
-      const btn = document.querySelector(".hold-btn");
-      const progress = document.getElementById("progress");
+function startHold() {
+    holding = true;
 
-      btn.textContent = "VERIFYING...";
-      progress.style.width = "100%";
+    document.getElementById("progress").style.width = "100%";
 
-      holdTimer = setTimeout(() => {
-        holding = false;
-        progress.style.width = "0%";
-        btn.textContent = "HOLD TO VERIFY";
+    holdTimer = setTimeout(() => {
         nextStep(3);
-      }, 2000);
-    }
+    }, 2000);
+}
 
-    function endHold() {
-      if (!holding) return;
+function endHold() {
+    if (!holding) return;
 
-      holding = false;
-      clearTimeout(holdTimer);
+    holding = false;
 
-      const btn = document.querySelector(".hold-btn");
-      const progress = document.getElementById("progress");
+    clearTimeout(holdTimer);
 
-      btn.textContent = "HOLD TO VERIFY";
-      progress.style.width = "0%";
-    }
+    document.getElementById("progress").style.width = "0%";
+}
 
-    function enterSite() {
-      window.location.href = "https://thecandidverse.com";
-    }
-  </script>
+function enterSite() {
+    window.location.href = "https://thecandidverse.com/?from_gate=1";
+}
+
+</script>
 
 </body>
 </html>
